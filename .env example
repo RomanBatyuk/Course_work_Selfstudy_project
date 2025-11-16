@@ -1,0 +1,8 @@
+SECRET_KEY=Ваш SECRET_KEY
+DEBUG=True
+
+NAME=NAME Вашей БД
+USER=USER Вашей БД
+PASSWORD=PASSWORD Вашей БД
+HOST=HOST Вашей БД
+PORT=PORT Вашей БД
