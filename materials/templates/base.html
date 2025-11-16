@@ -1,0 +1,42 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Главная страница{% endblock %}</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'materials:home' %}">Главная</a>  <!-- Ссылка на главную (замени на свой URL, если нужно) -->
+
+        <div class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <!-- Для авторизованных пользователей -->
+<!--                <span class="navbar-text mr-2">Привет, {{ user.username }}!</span>-->
+                <form method="post" action="{% url 'users:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Выход</button>
+                </form>
+            {% else %}
+                <!-- Для неавторизованных пользователей -->
+                <a href="{% url 'users:login' %}" class="btn btn-outline-primary mr-2">Вход</a>
+                <a href="{% url 'users:register' %}" class="btn btn-primary">Регистрация</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block extra_body %}
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
+

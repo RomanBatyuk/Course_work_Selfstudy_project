@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+    <h1 class="mb-4">Добро пожаловать!</h1>
+    <p>Здесь Вы увидите разделы для тестирования. Выберите раздел, чтобы просмотреть уроки и пройти тесты.</p>
+
+    {% if sections %}
+        <div class="row">
+            {% for section in sections %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ section.name }}</h5>
+                            <p class="card-text">{{ section.description|truncatewords:10 }}</p>
+                            <a href="{% url 'materials:section_detail' section.pk %}" class="btn btn-primary">Перейти к разделу</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>У вас пока нет разделов. <a href="{% url 'materials:section_create' %}">Создать первый раздел</a>.</p>
+        <p>Разделы отсутствуют!</p>
+    {% endif %}
+
+
+</form>
+{% endblock %}
+

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if results %}Результаты теста{% else %}Тест{% endif %}: {{ lesson.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% if results %}Результаты теста{% else %}Тест{% endif %} по уроку: {{ lesson.name }}</h2>
+
+    {% if results %}
+        <!-- Результаты -->
+        <div class="alert alert-info">
+            <h4>Ваш результат: {{ correct_count }} / {{ total_questions }} правильных ответов ({{ percentage }}%)</h4>
+        </div>
+        <div class="mt-3">
+            {% for result in results %}
+                <div class="card mb-3 {% if result.is_correct %}border-success{% else %}border-danger{% endif %}">
+                    <div class="card-header">
+                        <h5>{{ result.question.text }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Ваш ответ:</strong> {{ result.selected.text }}</p>
+                        <p><strong>Правильный ответ:</strong> {{ result.correct.text }}</p>
+                        <p class="{% if result.is_correct %}text-success{% else %}text-danger{% endif %}">
+                            {% if result.is_correct %}Верно!{% else %}Неверно.{% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'materials:lesson_detail' lesson.id %}" class="btn btn-secondary">Вернуться к уроку</a>
+        <a href="{% url 'materials:lesson_test' lesson.id %}" class="btn btn-primary">Пройти тест заново</a>
+
+    {% else %}
+        <!-- Форма теста -->
+        {% if questions_with_answers %}
+            <form method="post">
+                {% csrf_token %}
+                {% for item in questions_with_answers %}
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5>Вопрос {{ forloop.counter }}: {{ item.question.text }}</h5>
+                        </div>
+                        <div class="card-body">
+                            {% for answer in item.answers %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="answer_{{ item.question.id }}"
+                                           id="answer_{{ answer.id }}" value="{{ answer.id }}" required>
+                                    <label class="form-check-label" for="answer_{{ answer.id }}">
+                                        {{ answer.text }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success">Завершить тест</button>
+                <a href="{% url 'materials:lesson_detail' lesson.id %}" class="btn btn-secondary">Отмена</a>
+            </form>
+        {% else %}
+            <p>Для этого урока нет вопросов. <a href="{% url 'materials:lesson_detail' lesson.id %}">Вернуться</a></p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

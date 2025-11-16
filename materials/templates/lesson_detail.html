@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ lesson.title }} - Детали урока{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ lesson.name }}</h2>
+    <p>{{ lesson.description }}</p>
+
+<div class="mt-3">
+        <a href="{% url 'materials:lesson_test' lesson.id %}" class="btn btn-primary me-2">Начать тестирование</a>
+        <button onclick="history.back()" class="btn btn-secondary">Назад</button>
+    </div>
+
+</div>
+{% endblock %}

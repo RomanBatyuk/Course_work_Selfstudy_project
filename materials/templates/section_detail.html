@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ section.name }} - Детали раздела{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ section.name }}</h2>
+    <p>{{ section.description|linebreaks }}</p>
+    
+    <h5>Уроки в этом разделе:</h5>
+    {% if section.lessons.all %}
+        <ul class="list-group">
+            {% for lesson in section.lessons.all %}
+                <li class="list-group-item">
+                    <a href="{% url 'materials:lesson_detail' lesson.pk %}">{{ lesson.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    <button onclick="history.back()">Назад</button>
+    {% else %}
+        <p>Уроков пока нет.</p>
+        <button onclick="history.back()">Назад</button>
+    {% endif %}
+</div>
+{% endblock %}
