@@ -1,0 +1,112 @@
+[
+  {
+    "model": "materials.section",
+    "pk": 1,
+    "fields": {
+      "name": "Основы Python",
+      "description": "Введение в программирование на Python",
+      "owner": 3
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+      "name": "Переменные и типы данных",
+      "description": "Изучение базовых типов данных в Python",
+      "section": 1,
+      "owner": 3
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 2,
+    "fields": {
+      "name": "Условные операторы",
+      "description": "Использование if-else в Python",
+      "section": 1,
+      "owner": 3
+    }
+  },
+  {
+    "model": "materials.question",
+    "pk": 1,
+    "fields": {
+      "lesson": 1,
+      "text": "Что такое переменная в Python?",
+      "order": 1
+    }
+  },
+  {
+    "model": "materials.question",
+    "pk": 2,
+    "fields": {
+      "lesson": 1,
+      "text": "Какой тип данных у числа 42?",
+      "order": 2
+    }
+  },
+  {
+    "model": "materials.question",
+    "pk": 3,
+    "fields": {
+      "lesson": 2,
+      "text": "Что делает оператор if?",
+      "order": 1
+    }
+  },
+  {
+    "model": "materials.answer",
+    "pk": 1,
+    "fields": {
+      "question": 1,
+      "text": "Место для хранения данных",
+      "is_correct": true
+    }
+  },
+  {
+    "model": "materials.answer",
+    "pk": 2,
+    "fields": {
+      "question": 1,
+      "text": "Функция для вывода",
+      "is_correct": false
+    }
+  },
+  {
+    "model": "materials.answer",
+    "pk": 3,
+    "fields": {
+      "question": 2,
+      "text": "int",
+      "is_correct": true
+    }
+  },
+  {
+    "model": "materials.answer",
+    "pk": 4,
+    "fields": {
+      "question": 2,
+      "text": "str",
+      "is_correct": false
+    }
+  },
+  {
+    "model": "materials.answer",
+    "pk": 5,
+    "fields": {
+      "question": 3,
+      "text": "Проверяет условие и выполняет код",
+      "is_correct": true
+    }
+  },
+  {
+    "model": "materials.answer",
+    "pk": 6,
+    "fields": {
+      "question": 3,
+      "text": "Цикл",
+      "is_correct": false
+    }
+  }
+]
