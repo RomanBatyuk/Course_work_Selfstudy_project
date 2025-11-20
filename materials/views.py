@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView
@@ -7,6 +8,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from materials.models import Answer, Lesson, Section
+from materials.paginators import PaginationList
 from materials.permissions import IsAdminOrTeacher
 from materials.serializers import LessonSerializer, SectionSerializer
 
@@ -19,6 +21,7 @@ class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
     permission_classes = [IsAuthenticated, IsAdminOrTeacher]
+    pagination_class = PaginationList
 
     def get_queryset(self):
         user = self.request.user
@@ -41,6 +44,7 @@ class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsAdminOrTeacher]
+    pagination_class = PaginationList
 
     def get_queryset(self):
         user = self.request.user
@@ -82,6 +86,22 @@ class SectionDetailView(DetailView):
     def get_queryset(self):
         return Section.objects.prefetch_related("lessons")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        section = self.object
+
+        lessons_queryset = section.lessons.all().order_by('name')
+
+        paginator = Paginator(lessons_queryset, 10)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context['page_obj'] = page_obj
+        context['paginator'] = paginator
+        context['is_paginated'] = page_obj.has_other_pages()
+
+        return context
+
 
 class LessonListView(ListView):
     """
@@ -89,7 +109,6 @@ class LessonListView(ListView):
     """
 
     model = Lesson
-    template_name = "lesson_list.html"
     context_object_name = "lessons"
 
     def get_section(self):
