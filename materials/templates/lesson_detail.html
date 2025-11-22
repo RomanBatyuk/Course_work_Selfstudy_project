@@ -9,7 +9,7 @@
 
 <div class="mt-3">
         <a href="{% url 'materials:lesson_test' lesson.id %}" class="btn btn-primary me-2">Начать тестирование</a>
-        <button onclick="history.back()" class="btn btn-secondary">Назад</button>
+        <a href="{% url 'materials:section_detail' lesson.section.pk %}" class="btn btn-primary me-2">Назад</a>
     </div>
 
 </div>

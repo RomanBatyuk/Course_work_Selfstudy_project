@@ -40,10 +40,10 @@
             </nav>
         {% endif %}
 
-        <button onclick="history.back()">Назад</button>
+        <a href="{% url 'materials:home' %}" class="btn btn-primary me-2">Назад</a>
     {% else %}
         <p>Уроков пока нет.</p>
-        <button onclick="history.back()">Назад</button>
+        <a href="{% url 'materials:home' %}" class="btn btn-primary me-2">Назад</a>
     {% endif %}
 </div>
 {% endblock %}
